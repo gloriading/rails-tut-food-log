@@ -2,37 +2,35 @@
   Welcome to Foodlog
 <% end %>
 <% content_for :subtitle do %>
-   <%= DateTime.now %> 
+   <%= DateTime.now.to_s(:nice_date) %> 
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Meal type</th>
-      <th>Calories</th>
-      <th>Protiens</th>
-      <th>Carbs</th>
-      <th>Fats</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @entries.each do |entry| %>
-      <tr>
-        <td><%= entry.meal_type %></td>
-        <td><%= entry.calories %></td>
-        <td><%= entry.protiens %></td>
-        <td><%= entry.carbs %></td>
-        <td><%= entry.fats %></td>
-        <td><%= link_to 'Show', entry %></td>
-        <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
-        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
 
-<br>
+<div class="columns mt-6 is-centered">
+  <% @entries.each do |entry| %>
+    <div class="column is-one-quarter">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title"><%= entry.meal_type %></p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p><span class="has-text-weight-bold"><%= entry.calories %></span> calories</p>
+            <p><span class="has-text-weight-bold"><%= entry.protiens %></span> proteins</p>
+            <p><span class="has-text-weight-bold"><%= entry.carbs %></span> carbs</p>
+            <p><span class="has-text-weight-bold"><%= entry.fats %></span> fat</p>
+            <p class="italic">Logged: <%= time_ago_in_words(entry.created_at) %></p>
+          </div>
+        </div>
+        <div class="card-footer">
+            <%= link_to 'Show', entry, class: "card-footer-item" %>
+            <%= link_to 'Edit', edit_entry_path(entry), class: "card-footer-item" %>
+            <%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' }, class: "card-footer-item" %>
+        </div>
+      </div>
+    </div>
 
-<%= link_to 'New Entry', new_entry_path %>
+  
+  <% end %>
+</div>
